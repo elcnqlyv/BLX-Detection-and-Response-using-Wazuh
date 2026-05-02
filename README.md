@@ -16,6 +16,6 @@ This repository includes everything needed to build, simulate, detect, and valid
 ## Lab architecture
 | Component          | Role                                                             | OS / Version         |
 |--------------------|------------------------------------------------------------------|----------------------|
-| Wazuh SIEM Server  | Log collection, detection rules, active response                 | Ubuntu 22.04 LTS     |
-| YARA intergration  | Classification malware sample based on binary or textual pattern | Ubuntu 22.04 LTS     |
-| Sysmon             | Monitor critical system events on Windows endpoints              | Ubuntu 22.04 LTS     |
+| Wazuh SIEM Server  | Log collection, detection rules, active response                 | OVA version 4.14.5   |
+| YARA intergration  | Classification malware sample based on binary or textual pattern | v4.5.2-2326     |
+| Sysmon             | Monitor critical system events on Windows endpoints              | Schema Version 4.90 by Olaf Hartong     |
