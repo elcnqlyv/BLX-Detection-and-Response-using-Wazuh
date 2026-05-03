@@ -40,11 +40,11 @@ Follow [`lab-setup/vm_config.md`](lab-setup/vm_config.md) for VM specs and setup
 
 ### Install & Configure Components
 
-| Component | Setup Overview                                                                    |
-| --------- | --------------------------------------------------------------------------------- |
-| Sysmon    | Install + load [`sysmonconfig.xml`](sysmon-configuration/sysmonconfiguration.xml) |
-| Wazuh     | Install + load [`local_rules`](detection-rules/local_rules.xml)                   |
-| YARA      | Follow [`yara_config.md`](active-response-rules/yara_config.md)                   |
+| Component | Setup Overview                                                             |
+| --------- | -------------------------------------------------------------------------- |
+| Sysmon    | Install + load [`sysmonconfig.xml`](sysmon-configuration/sysmonconfig.xml) |
+| Wazuh     | Install + load [`local_rules`](detection-rules/local_rules.xml)            |
+| YARA      | Follow [`yara_config.md`](active-response-rules/yara_config.md)            |
 
 You can find step by step guide with attached screenshots in
 
