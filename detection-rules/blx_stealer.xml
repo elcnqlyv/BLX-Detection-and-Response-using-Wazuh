@@ -1,46 +1,58 @@
-<group name="windows,sysmon,blx_detection_rule,">
-<!-- Blx drops powershell script -->
+<group name="windows,sysmon,blx_stealer,">
+
+  <!-- 1. Dropping temp.ps1 script -->
   <rule id="100300" level="10">
-    <if_sid>92200</if_sid>
-    <field name="win.eventdata.image" type="pcre2">(?i)\\.+(exe|dll|bat|msi)</field>
-    <field name="win.eventdata.targetFilename" type="pcre2">(?i)\\temp.ps1</field>
-    <description>Possible BLX stealer activity detected: A rogue powershell script was dropped to system.</description>
+    <if_sid>92213</if_sid>   <!-- Sysmon EventID 11 (FileCreate) -->
+    <field name="win.eventdata.targetFilename" type="pcre2">(?i)\\temp\.ps1$</field>
+    <description>BLX Stealer: malicious PowerShell script dropped (temp.ps1).</description>
     <mitre>
       <id>T1105</id>
     </mitre>
   </rule>
 
-<!-- Blx starts a command prompt to execute previously dropped script -->
+  <!-- 2. Execution of temp.ps1 via cmd and powershell -->
   <rule id="100310" level="10">
-    <if_sid>92052</if_sid>
-    <field name="win.eventdata.parentImage" type="pcre2">(?i)\\.+(exe|dll|bat|msi)</field>
-    <field name="win.eventdata.image" type="pcre2">(?i)\\Windows\\System32\\cmd.exe</field>
-    <field name="win.eventdata.commandLine" type="pcre2">powershell.exe -ExecutionPolicy Bypass -File</field>
-    <description>Possible BLX stealer activity detected: Rogue powershell script execution.</description>
+    <if_sid>92052</if_sid>   <!-- Sysmon EventID 1 (ProcessCreate) -->
+    <field name="win.eventdata.parentImage" type="pcre2">(?i)\\cmd\.exe$</field>
+    <field name="win.eventdata.image" type="pcre2">(?i)\\powershell\.exe$</field>
+    <field name="win.eventdata.commandLine" type="pcre2">-ExecutionPolicy\s+Bypass\s+-File\s+.*temp\.ps1</field>
+    <description>BLX Stealer: execution of dropped PowerShell script.</description>
     <mitre>
       <id>T1059.003</id>
     </mitre>
   </rule>
 
-<!-- Blx dropped an executable to temp folder -->
+  <!-- 3. Dropping decrypted_executable.exe to Temp folder -->
   <rule id="100320" level="10">
     <if_sid>92213</if_sid>
-    <field name="win.eventdata.image" type="pcre2">(?i)\\.+(exe|dll|bat|msi)</field>
-    <field name="win.eventdata.targetFilename" type="pcre2">(?i)\\Users\\[^\\]+\\AppData\\Local\\Temp\\decrypted_executable.exe</field>
-    <description>Possible BLX stealer activity detected: Rogue executable was dropped to system.</description>
+    <field name="win.eventdata.targetFilename" type="pcre2">(?i)\\Temp\\decrypted_executable\.exe$</field>
+    <description>BLX Stealer: malicious executable dropped to Temp folder.</description>
     <mitre>
       <id>T1105</id>
     </mitre>
   </rule>
 
-<!-- Rogue executable copies itself to users' startup folder for persistence -->
+  <!-- 4. Persistence via Startup folder (decrypted_executable.exe) -->
   <rule id="100330" level="10">
-    <if_sid>61613</if_sid>
-    <field name="win.eventdata.image" type="pcre2">(?i)\\Users\\[^\\]+\\AppData\\Local\\Temp\\decrypted_executable.exe</field>
-    <field name="win.eventdata.targetFilename" type="pcre2">(?i)\\Users\\[^\\]+\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\decrypted_executable.exe</field>
-    <description>Possible BLX stealer persistence activity detected: Rogue executable was copied to users' startup folder to establish persistence.</description>
+    <if_sid>92213</if_sid>
+    <field name="win.eventdata.image" type="pcre2">(?i)\\decrypted_executable\.exe$</field>
+    <field name="win.eventdata.targetFilename" type="pcre2">(?i)\\Startup\\decrypted_executable\.exe$</field>
+    <description>BLX Stealer: persistence achieved by copying decrypted executable to Startup.</description>
     <mitre>
       <id>T1547.001</id>
     </mitre>
   </rule>
+
+  <!-- 5. (Optional) Self‑copy to Startup – covers variants that copy themselves -->
+  <rule id="100340" level="10">
+    <if_sid>92213</if_sid>
+    <field name="win.eventdata.image" type="pcre2">(?i)\\.+\.exe$</field>
+    <field name="win.eventdata.targetFilename" type="pcre2">(?i)\\Startup\\.+\.exe$</field>
+    <field name="win.eventdata.image" type="pcre2">(?i)(?!\\decrypted_executable\.exe$).*</field>
+    <description>BLX Stealer: possible self‑copy to Startup (generic).</description>
+    <mitre>
+      <id>T1547.001</id>
+    </mitre>
+  </rule>
+
 </group>
