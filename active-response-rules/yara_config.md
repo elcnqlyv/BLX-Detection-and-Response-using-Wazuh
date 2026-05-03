@@ -50,4 +50,6 @@ Perform the steps below to download YARA rules:
 
 9. Create a batch file [`yara.bat`](yara.bat) in the C:\Program Files (x86)\ossec-agent\active-response\bin\ folder. The Wazuh active response module uses this file to perform YARA scans for malware detection and removal:
 
-10. Restart the Wazuh agent to apply the changes: [`yara_decoder.xml`](yara_decoder.xml)
+10. Restart the Wazuh agent to apply the changes:
+
+> Restart-Service -Name Wazuh

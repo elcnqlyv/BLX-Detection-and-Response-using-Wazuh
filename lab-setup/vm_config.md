@@ -11,7 +11,7 @@ Windows 11 Client (for simulations)
 
 | VM Name               | OS                       | vCPU | RAM  | Disk  | Network       | Role / Purpose                    |
 | --------------------- | ------------------------ | ---- | ---- | ----- | ------------- | --------------------------------- |
-| **Wazuh**             | OVA version 4.14.5       | 4    | 8 GB | 50 GB | Host-Only/NAT | Wazuh Manager, Dashboard          |
+| **Wazuh**             | Ubuntu 22.04             | 4    | 8 GB | 50 GB | Host-Only/NAT | Wazuh Manager, Dashboard          |
 | **Windows 11 Client** | Windows 11, version 25H2 | 4    | 4 GB | 64 GB | Host-Only/NAT | Sysmon + YARA + Attack simulation |
 
 ## Tools & Software Required

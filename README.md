@@ -1,4 +1,4 @@
-# BLX-Detection-and-Response-using-Wazuh
+# BLX Detection and Response using Wazuh
 
 Complete lab: BLX stealer detection and response using Wazuh
 
@@ -18,10 +18,10 @@ This repository includes everything needed to build, simulate, detect, and valid
 
 ## Lab architecture
 
-| Component      | Role                                             | OS / Version             |
-| -------------- | ------------------------------------------------ | ------------------------ |
-| Wazuh Server   | Log collection, detection rules, active response | OVA version 4.14.5       |
-| Windows Client | Attack simulation, log source                    | Windows 11, Version 25H2 |
+| Component      | Role                                             | OS / Version                |
+| -------------- | ------------------------------------------------ | --------------------------- |
+| Wazuh Server   | Log collection, detection rules, active response | Ubuntu 22.04 / Wazuh 4.14.5 |
+| Windows Client | Attack simulation, log source                    | Windows 11, Version 25H2    |
 
 ## Tools used
 
@@ -29,7 +29,7 @@ This repository includes everything needed to build, simulate, detect, and valid
 | ----------- | ---------------------------------------------------------------- | -------------- |
 | Sysmon      | Event logging (process, network, file)                           | Windows Client |
 | YARA        | Classification malware sample based on binary or textual pattern | Windows Client |
-| Wazuh       | SIEM detection, alerts                                           | Wazuh Server   |
+| Wazuh       | SIEM detection, alerts, XDR active response                      | Wazuh Server   |
 | BLX stealer | Credential dumping simulation                                    | Windows Client |
 
 ## How to setup the lab
@@ -40,13 +40,15 @@ Follow [`lab-setup/vm_config.md`](lab-setup/vm_config.md) for VM specs and setup
 
 ### Install & Configure Components
 
-| Component | Setup Overview                                                                          |
-| --------- | --------------------------------------------------------------------------------------- |
-| Sysmon    | Install + load [`sysmonconfig.xml`](sysmon-configuration/sysmonconfiguration.xml)       |
-| Wazuh     | Install + load [`wazuh_detection_rules.xml`](detection-rules/wazuh_detection_rules.xml) |
-| YARA      | Follow [`yara_config.md`](active-response-rules/yara_config.md)                         |
+| Component | Setup Overview                                                                    |
+| --------- | --------------------------------------------------------------------------------- |
+| Sysmon    | Install + load [`sysmonconfig.xml`](sysmon-configuration/sysmonconfiguration.xml) |
+| Wazuh     | Install + load [`local_rules`](detection-rules/local_rules.xml)                   |
+| YARA      | Follow [`yara_config.md`](active-response-rules/yara_config.md)                   |
 
-You can find step by step guide in
+You can find step by step guide with attached screenshots in
+
+[blx-detection-response.md](blx-detection-response.md)
 
 ### Simulate Attacks
 
